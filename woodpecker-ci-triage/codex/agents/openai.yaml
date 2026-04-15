@@ -1,0 +1,8 @@
+interface:
+  display_name: "Woodpecker CI Triage"
+  short_description: "Inspect CI status and fetch failing logs"
+  default_prompt: "Use $woodpecker-ci-triage to inspect the latest CI result after a commit, then fetch failing Woodpecker logs and propose a fix."
+
+policy:
+  allow_implicit_invocation: false
+

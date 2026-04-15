@@ -1,0 +1,7 @@
+interface:
+  display_name: "PR Frontend Review"
+  short_description: "Review one specified frontend PR"
+  default_prompt: "Use $pr-review-frontend to review a specified frontend PR by URL or number. Fetch PR metadata and diff, apply the front_end_review rules, and return a Chinese review with prioritized findings."
+
+policy:
+  allow_implicit_invocation: false

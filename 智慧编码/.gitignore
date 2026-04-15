@@ -1,0 +1,23 @@
+# 用户配置文件（包含敏感信息）
+config.json
+
+# 用户需求文件（可能包含私密项目信息）
+requirements.md
+
+# 日志文件
+logs/
+*.log
+
+# 临时文件
+*.tmp
+*.bak
+*.swp
+*~
+
+# macOS
+.DS_Store
+
+# 编辑器
+.vscode/
+.idea/
+*.sublime-*

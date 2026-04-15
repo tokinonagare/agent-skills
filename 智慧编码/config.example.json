@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "description": "智慧编码配置文件 - 此文件由智慧编码在初始化阶段自动创建",
+  "branch": {
+    "name": "feature-example",
+    "created_at": "2026-01-07 10:00:00",
+    "description": "分支信息 - 由 AI 在阶段 1 自动填写"
+  },
+  "git": {
+    "main_branch": "master",
+    "description": "主分支名称（master 或 main）"
+  },
+  "ci": {
+    "check_interval": 30,
+    "max_retry": 10,
+    "description": "CI 检查配置 - check_interval: 检查间隔（秒），max_retry: CI 失败后最大自动重试次数"
+  },
+  "pr": {
+    "monitor_interval": 60,
+    "auto_fix_on_comment": true,
+    "description": "PR 监控配置 - monitor_interval: 评论监控间隔（秒），auto_fix_on_comment: 收到评论时是否自动修复"
+  }
+}
