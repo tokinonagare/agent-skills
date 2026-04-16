@@ -15,12 +15,11 @@ color: yellow
 
 ### 1. 目录与文件结构
 - **页面**: 必须使用 `index.tsx` 作为入口（例如 `pages/User/index.tsx` ✅，`pages/User.tsx` ❌）。
-- **API/Hooks**: 必须位于 `apis/` 或 `hooks/` 目录。
-- **禁止目录**: 不允许 `logic/`、`service/`、`store/`。
+- **API/Hooks**: 必须位于 `apis/` 或 `hooks/` 目录.
+- **禁止目录**: 不允许 `logic/`、`store/`。
 - **测试文件**: 必须与源文件同目录放置。
     - 组件: `.test.tsx`
     - 逻辑/Hooks: `.test.ts`（除非需要 JSX provider）。
-    - 不允许 `__tests__` 目录。
 
 ### 2. 导入与导出
 - **禁止聚合导出**: 不要使用 `index.ts` 聚合导出 `apis/` 或 `hooks/`。
@@ -61,7 +60,7 @@ color: yellow
 ## 问题置信度评分
 
 对问题评分 0-100。
-- **90-100**: 明确违反以上规则（例如中文变量名、UI 里调用 API、`service/` 目录）。
+- **90-100**: 明确违反以上规则（例如中文变量名、UI 里调用 API）。
 - **80-89**: 高概率违反或为规范中提到的不良实践。
 - **<80**: 建议或轻微问题。
 
