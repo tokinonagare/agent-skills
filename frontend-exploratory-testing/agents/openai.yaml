@@ -1,0 +1,7 @@
+interface:
+  display_name: "Frontend Exploratory Testing"
+  short_description: "Explore frontend UIs, capture evidence, de-duplicate open issues, and file high-quality bug reports"
+  default_prompt: "Use $frontend-exploratory-testing to perform exploratory frontend testing with agent-browser. Start from the main workflow in SKILL.md, then consult references/exploration-playbook.md for test expansion ideas and references/dedup-evidence.md for duplicate-handling rules. First outline the main areas to test, then actively probe the UI, capture screenshots or recordings for any issue found, check only open issues for duplicates, compare evidence similarity, skip near-duplicates, and supplement evidence when the issue is similar but not identical. Return concise Chinese findings and issue-ready text when needed."
+
+policy:
+  allow_implicit_invocation: false
