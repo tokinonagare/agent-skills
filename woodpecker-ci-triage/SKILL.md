@@ -47,7 +47,7 @@ python3 scripts/woodpecker_triage.py \
 - **⏳ Pending / Running**: 建议用户稍等片刻，或使用 `--wait-seconds` 参数继续追踪。
 - 如果本次工作对应某个 PR，最终结论要回发到对应 PR。
 
-## 输出
+## 结果
 
 | 故障现象 | 可能原因 | 修复建议 |
 | :--- | :--- | :--- |
