@@ -1,6 +1,6 @@
 ---
 name: pr-review-frontend
-description: 针对指定 GitHub PR 的一次性前端代码审查技能。使用时先获取 PR 元数据和 diff，再加载 front_end_review 规则做中文评审；不负责监控、批量扫描、iTerm 通知。
+description: 针对指定 GitHub PR 的一次性前端代码审查技能。先获取 PR 元数据和 diff，再加载前端审查规则并把结论回发到对应 PR。
 ---
 
 # PR Frontend Review

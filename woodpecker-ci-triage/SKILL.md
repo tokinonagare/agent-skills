@@ -1,11 +1,11 @@
 ---
 name: woodpecker-ci-triage
-description: 检查 Woodpecker CI 状态并在失败时抓取日志定位根因。适用于代码提交后、Push 后或需要确认构建状态的场景。
+description: 针对 Woodpecker CI 的一次性排查技能。先获取上下文，再分析日志并把结论回发到对应 PR。
 ---
 
 # Woodpecker CI 故障诊断专家 (Triage Expert)
 
-本技能用于在代码提交、推送或 PR 更新后，自动或手动检查 Woodpecker CI 流水线状态。如果流水线失败，它将定位失败的步骤，抓取并分析日志，帮助快速定位代码或配置问题。
+本技能用于在代码提交、推送或 PR 更新后，检查 Woodpecker CI 流水线状态；如果失败，则定位原因并给出结论。
 
 ## 用途
 
