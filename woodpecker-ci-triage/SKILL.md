@@ -41,7 +41,7 @@ python3 scripts/woodpecker_triage.py \
     - **分析原则**: 优先处理真正的构建/测试失败，忽略缓存挂载、依赖安装噪音（除非它们是导致失败的原因）。
     - **定位错误**: 寻找第一个 Non-zero exit code 或 Exception 栈信息。
 - **⏳ Pending / Running**: 建议用户稍等片刻，或使用 `--wait-seconds` 参数继续追踪。
-- 如果本次排查对应某个 PR，最终结论要回发到对应 PR。
+- 如果本次工作对应某个 PR，最终结论要回发到对应 PR。
 
 ## 常见失败模式速查表
 
