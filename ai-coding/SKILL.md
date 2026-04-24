@@ -54,6 +54,12 @@ bash scripts/self-check.sh
     - **存放位置**：截图文件必须保存在受影响源代码文件的**同级目录**下，且文件名以 `_UI.png` 结尾。
 3. **资源清理**：运行 `bash scripts/resource-scanner.sh`。
 4. **提交与 PR**：执行 `bash scripts/submit-pr.sh`。在 PR 描述中必须使用 Markdown 语法直观展示这些截图，并附带修改前后的视觉对比说明。
+   - 代码提交必须推送到 GitHub 对应分支，并通过 GitHub 创建或关联 PR。
+5. **PR 输出要求**：
+   - 修改完成后，必须向用户提供 PR 的 URL。
+   - PR 的 description 必须使用正常的 Markdown 格式书写，不要把换行写成字面量 `\n`，也不要把整段内容拼成单行字符串。
+6. **子模块规则**：
+   - 如果修改涉及子模块，子模块仓库也必须单独提交并创建对应 PR。
 
 ## 阶段 3: 持续监控与自动修复 (CRITICAL)
 **执行完阶段 2 后，必须立即、毫无停顿地进入此阶段。**
