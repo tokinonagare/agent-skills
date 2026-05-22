@@ -40,6 +40,7 @@ description: 针对指定 GitHub PR 的一次性前端代码审查技能。先�
      - `frontend-spec-check`
      - `silent-failure-hunter`
      - `pr-test-analyzer`
+     - `react-native-test-reviewer`
      - `comment-analyzer`
 
 4. 形成结论
