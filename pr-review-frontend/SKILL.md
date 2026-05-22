@@ -1,13 +1,13 @@
 ---
 name: pr-review-frontend
-description: 针对指定 GitHub PR 的一次性前端代码审查技能。先获取 PR 元数据和 diff，再加载前端审查规则并把结论回发到对应 PR。
+description: 针对指定 GitHub PR 的一次性 React Native 前端代码审查技能。先获取 PR 元数据和 diff，再加载 RN 项目审查规则并把结论回发到对应 PR。
 ---
 
 # PR Frontend Review
 
 ## 用途
 
-当用户要你“review 某个 PR”或“审查这个 PR”时使用本技能。它只处理一个明确指定的 PR（URL 或编号），面向前端代码审查场景。
+当用户要你“review 某个 PR”或“审查这个 PR”时使用本技能。它只处理一个明确指定的 PR（URL 或编号），面向 React Native 跨平台应用代码审查场景。
 
 ## 核心范围
 
