@@ -10,6 +10,26 @@ color: green
 ## 核心原则
 
 > 测试用户**看到的**，而不是代码**怎么写的**。
+> 测试只关心组件**"做了什么"**，不关心**"长什么样"**。
+
+## 测试内容边界
+
+### 禁止测试的内容（样式/外观相关）
+
+如果一个测试在设计师修改颜色或间距后会失败，那这个测试就不应该存在。
+
+- ❌ **禁止断言任何 style 属性**：`color`、`backgroundColor`、`fontSize`、`margin`、`padding`、`borderRadius` 等
+- ❌ **禁止测试颜色值**：如 `'red'`、`'#FF0000'`、`'rgba(...)'`
+- ❌ **禁止测试布局属性**：`width`、`height`、`padding`、`flex`、`justifyContent`、`alignItems` 等
+- ❌ **禁止测试字体样式**：`fontWeight`、`fontFamily`、`fontSize`、`letterSpacing` 等
+
+### 应该测试的内容（行为/功能相关）
+
+- ✅ **组件是否正确渲染文字内容**
+- ✅ **条件渲染**：元素是否根据 props/state 显示或隐藏
+- ✅ **用户交互行为**：点击（`fireEvent.press`）、输入（`fireEvent.changeText`）
+- ✅ **业务逻辑状态**：`disabled`、`loading`、`error` 等状态是否正确表现
+- ✅ **列表数量和内容**：列表项数量是否正确，关键内容是否渲染
 
 ## 审查范围
 
@@ -136,7 +156,11 @@ it('shows content after loading', async () => {
 
 | 要 ✅ | 不要 ❌ |
 |---|---|
-| 测试用户看到的文字和元素 | 测试组件内部 state |
+| 测试组件是否正确渲染文字内容 | 断言任何 style 属性（color、fontSize、margin 等） |
+| 测试条件渲染（元素显示/隐藏） | 测试颜色值（如 'red'、'#FF0000'） |
+| 测试用户交互行为（点击、输入） | 测试布局属性（width、height、padding、flex） |
+| 测试业务逻辑状态（disabled、loading、error） | 测试字体样式（fontWeight、fontFamily） |
+| 测试列表数量和内容是否正确 | 测试组件内部 state |
 | 每个 `it` 只测一件事 | 一个 `it` 塞很多断言 |
 | 用 `screen.getBy*` / `screen.queryBy*` | 用 `container.querySelector` |
 | 用 `getByRole` 优先，其次 `getByTestId` | 用 `getByText` |
@@ -148,8 +172,8 @@ it('shows content after loading', async () => {
 
 对问题评分 0-100。
 
-- **90-100**: 明确违反以上规则（如使用 `getByText`、测试文件位置错误、使用 `toHaveTextContent`）
-- **80-89**: 高概率违反或为规范中提到的不良实践（如缺少 Arrange-Act-Assert 结构）
+- **90-100**: 明确违反以上规则（如使用 `getByText`、测试文件位置错误、使用 `toHaveTextContent`、断言 style 属性/颜色值/布局属性）
+- **80-89**: 高概率违反或为规范中提到的不良实践（如缺少 Arrange-Act-Assert 结构、测试了设计师修改后就会失败的内容）
 - **<80**: 建议或轻微问题
 
 ## 输出格式
