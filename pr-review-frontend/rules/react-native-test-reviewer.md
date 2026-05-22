@@ -12,53 +12,16 @@ color: green
 > 测试用户**看到的**，而不是代码**怎么写的**。
 > 测试只关心组件**"做了什么"**，不关心**"长什么样"**。
 
-## TDD 核心思路
-
-按照以下顺序思考和编写测试：
-
-1. **先描述组件"应该做什么"**（行为）
-2. **再写测试来验证这个行为**
-3. **测试要像"用户视角"描述需求**，不是"开发者视角"描述实现
-
-## 测试内容边界
-
-### 禁止测试的内容
-
-#### 样式/外观相关
-
-如果一个测试在设计师修改颜色或间距后会失败，那这个测试就不应该存在。
-
-- ❌ **禁止断言任何 style 属性**：`color`、`backgroundColor`、`fontSize`、`margin`、`padding`、`borderRadius` 等
-- ❌ **禁止测试颜色值**：如 `'red'`、`'#FF0000'`、`'rgba(...)'`
-- ❌ **禁止测试布局属性**：`width`、`height`、`padding`、`flex`、`justifyContent`、`alignItems` 等
-- ❌ **禁止测试字体样式**：`fontWeight`、`fontFamily`、`fontSize`、`letterSpacing` 等
-
-#### 边界值与异常情况
-
-- ❌ **禁止测试边界值**：空字符串、`null`、`undefined`、超长文本
-- ❌ **禁止测试异常情况**：网络错误、数据格式错误、非法参数
-
-#### 内部实现
-
-- ❌ **禁止测试组件内部实现**：`state`、`refs`、私有方法
-
-### 应该测试的内容（行为/功能相关）
-
-- ✅ **组件的核心功能是否正常工作**
-- ✅ **正常业务流程下的渲染结果**
-- ✅ **用户的主要交互行为**：点击（`fireEvent.press`）、输入（`fireEvent.changeText`）
-- ✅ **业务状态的变化**：`disabled`、`loading`、`error`、显示/隐藏等状态是否正确表现
-- ✅ **列表数量和内容**：列表项数量是否正确，关键内容是否渲染
-
 ## 审查范围
 
 聚焦 PR 中的 `.test.tsx`、`.test.ts` 文件，以及被测的 React Native 组件文件。
 
-## 核心审查职责
+## 审查指南
 
 ### 1. 文件结构
 
 - **同级放置**：测试文件必须与被测文件放在同一目录下。
+- **命名规范**：测试文件必须使用 `<文件名>.test.tsx`（组件）或 `<文件名>.test.ts`（纯逻辑）。
 
 ```
 src/
@@ -68,137 +31,68 @@ src/
       Button.test.tsx   ← 测试文件紧挨组件
 ```
 
-- **命名规范**：测试文件必须使用 `<文件名>.test.tsx`（组件）或 `<文件名>.test.ts`（纯逻辑）。
+### 2. 三步写法
 
-### 2. 三步写法（每个测试都必须遵循）
+每个 `it` 必须清晰分为 Arrange、Act、Assert 三步：
 
 ```jsx
-it('描述期望行为', () => {
-  // 1. 准备（Arrange）— 渲染组件
+it('should show confirm button when form is valid', () => {
+  // Arrange
   render(<Button label="提交" />);
 
-  // 2. 查找（Act）— 找到元素
+  // Act
   const btn = screen.getByRole('button');
 
-  // 3. 断言（Assert）— 验证结果
+  // Assert
   expect(btn).toBeTruthy();
 });
 ```
 
-**必须检查**：每个 `it` 是否清晰分为 Arrange、Act、Assert 三步。
-
 ### 3. 查询方法选择
 
-| 场景 | 方法 | 说明 |
-|---|---|---|
-| 元素一定存在？ | `getBy*` | 找不到直接报错 |
-| 元素可能不存在？ | `queryBy*` | 找不到返回 `null` |
-| 需要等待异步？ | `findBy*` | 返回 Promise |
+| 场景 | 方法 |
+|---|---|
+| 元素一定存在 | `getBy*` |
+| 元素可能不存在 | `queryBy*` |
+| 需要等待异步 | `findBy*` |
 
-### 4. 查询优先级（从高到低）
+### 4. 查询优先级
 
-```
-1. getByRole       → 按钮、输入框等有明确角色的元素
-2. getByTestId     → 以上都不行再加 testID
-```
+1. `getByRole` — 按钮、输入框等有明确角色的元素
+2. `getByTestId` — 以上都不行再加 testID
 
-**⚠️ 禁止使用 `getByText`**：避免依赖文案，文案变更不应导致测试失败。
+**⚠️ 禁止使用 `getByText`**：文案变更不应导致测试失败。
 
 ### 5. 命名规范
 
-```jsx
-// ✅ 格式：it('should + 动词 + 期望结果')
-it('should show confirm button when form is valid', () => {})
-it('should hide error message when input is corrected', () => {})
-
-// ❌ 不要这样写
-it('should handle null input', () => {})
-it('should render correctly', () => {})
-it('test1', () => {})
-```
-
-**必须检查**：
 - 测试描述使用**中文**（专有名词、行业术语或通用缩写保留英文）
-- 使用 `it('should + 动词 + 期望结果')` 格式描述具体行为
-- 禁止无意义的命名如 `test1`、`should render correctly`
-- 禁止使用 `should handle null input` 等边界/异常测试命名
+- 格式：`it('should + 动词 + 期望结果')`
+- ❌ 禁止无意义命名：`test1`、`should render correctly`
+- ❌ 禁止边界/异常测试命名：`should handle null input`
 
 ### 6. 断言规范
 
-- ✅ **验证元素存在性**：`toBeTruthy()`、`toBeInTheDocument()`、`toBeNull()`
-- ❌ **禁止使用带有 `Text` 的断言方法**：如 `.toHaveTextContent()`
-- ❌ **禁止使用 `container.querySelector`**：使用 `screen.getBy*` 系列
+- ✅ 验证元素存在性：`toBeTruthy()`、`toBeInTheDocument()`、`toBeNull()`
+- ❌ 禁止带有 `Text` 的断言：`.toHaveTextContent()`
+- ❌ 禁止 `container.querySelector`
 
-### 7. 判断标准
+### 7. 测试内容边界
 
-每审查一个测试，判断它是否对应真实的用户需求：
+**❌ 禁止测试的内容：**
 
-> **"这个测试对应的是一个真实的用户需求吗？"**
+- 样式/外观属性：`color`、`backgroundColor`、`fontSize`、`margin`、`padding`、`borderRadius`、`width`、`height`、`flex`、`justifyContent`、`alignItems`、`fontWeight`、`fontFamily`、`letterSpacing` 等
+- 颜色值：`'red'`、`'#FF0000'`、`'rgba(...)'`
+- 边界值：空字符串、`null`、`undefined`、超长文本
+- 异常情况：网络错误、数据格式错误、非法参数
+- 组件内部实现：`state`、`refs`、私有方法
 
-- 如果答案是**否**，这个测试不应该存在。
-- 如果一个测试在设计师修改颜色或间距后会失败，删掉它。
-- 如果一个测试在边界值（`null`、空字符串）下才会失败，删掉它。
+**✅ 应该测试的内容：**
 
-### 8. 四种常见场景模板
-
-审查时检查测试是否覆盖以下场景，并符合对应模板：
-
-**① 基础渲染**
-```jsx
-it('renders title correctly', () => {
-  render(<Card title="标题" />);
-  expect(screen.getByRole('heading')).toBeTruthy();
-});
-```
-
-**② 条件显示/隐藏**
-```jsx
-it('shows error when hasError is true', () => {
-  render(<Form hasError={true} />);
-  expect(screen.getByTestId('error-message')).toBeTruthy();
-});
-
-it('hides error when hasError is false', () => {
-  render(<Form hasError={false} />);
-  expect(screen.queryByTestId('error-message')).toBeNull();
-});
-```
-
-**③ 列表渲染**
-```jsx
-it('renders all items', () => {
-  render(<List items={['A', 'B', 'C']} />);
-  expect(screen.getAllByTestId('list-item')).toHaveLength(3);
-});
-```
-
-**④ 异步加载**
-```jsx
-it('shows content after loading', async () => {
-  render(<Profile />);
-  expect(screen.getByTestId('loading')).toBeTruthy();
-
-  await screen.findByTestId('user-name');  // 等待出现
-  expect(screen.queryByTestId('loading')).toBeNull();
-});
-```
-
-### 9. 质量检查清单
-
-| 要 ✅ | 不要 ❌ |
-|---|---|
-| 测试组件的核心功能是否正常工作 | 断言任何 style 属性（color、fontSize、margin 等） |
-| 测试正常业务流程下的渲染结果 | 测试颜色值（如 'red'、'#FF0000'） |
-| 测试用户的主要交互行为（点击、输入） | 测试布局属性（width、height、padding、flex） |
-| 测试业务状态的变化（disabled、loading、error） | 测试字体样式（fontWeight、fontFamily） |
-| 测试列表数量和内容是否正确 | 测试组件内部 state、refs、私有方法 |
-| 每个 `it` 只测一件事 | 测试边界值（空字符串、`null`、`undefined`、超长文本） |
-| 用 `screen.getBy*` / `screen.queryBy*` | 测试异常情况（网络错误、数据格式错误） |
-| 用 `getByRole` 优先，其次 `getByTestId` | 用 `container.querySelector` |
-| 用 `it('should + 动词 + 期望结果')` 命名 | 用 `getByText` |
-| 描述**真实用户需求** | 用 `test1` `should render correctly` 命名 |
-| 验证元素存在性 | 用 `.toHaveTextContent()` 做文本断言 |
-| 与被测文件同级放置 | 放在 `__tests__/` 目录或其他位置 |
+- 组件的核心功能是否正常工作
+- 正常业务流程下的渲染结果
+- 用户的主要交互行为（点击 `fireEvent.press`、输入 `fireEvent.changeText`）
+- 业务状态变化：`disabled`、`loading`、`error`、显示/隐藏
+- 列表数量和内容是否正确
 
 ## 问题置信度评分
 
