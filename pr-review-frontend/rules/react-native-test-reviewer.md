@@ -127,7 +127,66 @@ it('should update after state change', () => {
 
 **注意**：React Native Testing Library 没有 DOM，因此 `toBeInTheDocument()` 不存在。使用 `toBeTruthy()` 验证元素存在，`toBeNull()` 验证元素不存在。
 
-### 7. 测试内容边界
+### 7. 真实等待反模式（高度置信）
+
+**禁止**在测试中使用任何真实的 `setTimeout`、`sleep`、`delay`、`wait` 等固定时长的等待。这类问题会：
+- 直接拖慢单条用例的执行速度（每处等待累加后显著降低 CI 效率）
+- 引入 flaky 风险（时间窗口受机器负载影响）
+- 掩盖真正的异步语义（测试应断言状态变化，而非"等一会儿再看"）
+
+**需要识别的反模式：**
+
+1. **直接的真实等待**
+   ```js
+   // ❌ 任何 N > 0 都属于违规
+   await new Promise((r) => setTimeout(r, N));
+   await sleep(N);
+   await delay(N);
+   await wait(N);
+   ```
+
+2. **隐式的真实等待（窗口期）**
+   ```js
+   // ❌ 用固定 50ms 给异步副作用"留出窗口期"
+   await new Promise((r) => setTimeout(r, 50));
+   await act(async () => {
+     doSomething();
+     await new Promise((r) => setTimeout(r, 50)); // act 内部的真实等待
+   });
+   ```
+
+3. **为了排空业务 sleep 而等待**
+   ```js
+   // ❌ 业务里有 sleep(1500)，测试里等 1600ms
+   await new Promise((r) => setTimeout(r, 1600));
+   ```
+
+**改造方案（按优先级）：**
+
+- **优先级 1** — mock 业务层的 sleep/delay 函数：
+  ```js
+  jest.mock('../utils/sleep', () => jest.fn().mockResolvedValue(undefined));
+  ```
+
+- **优先级 2** — `jest.useFakeTimers` + `doNotFake` 保留 `setInterval`（保留 `waitFor` 轮询）：
+  ```js
+  jest.useFakeTimers({ doNotFake: ['setInterval', 'queueMicrotask', 'nextTick'] });
+  // ... 触发逻辑后
+  jest.advanceTimersByTime(N);
+  ```
+
+- **优先级 3** — 用 `waitFor` 替代固定窗口期：
+  ```js
+  // ❌ 不要这样做
+  // await new Promise(r => setTimeout(r, 50));
+
+  // ✅ 改为让 waitFor 轮询直到副作用完成
+  await waitFor(() => expect(mockFn).toHaveBeenCalled());
+  ```
+
+发现此类问题，置信度直接评为 **100**。
+
+### 8. 测试内容边界
 
 **❌ 应避免过度测试的内容：**
 
@@ -149,7 +208,7 @@ it('should update after state change', () => {
 
 对问题评分 0-100。
 
-- **90-100**: 明确违反以上规则（如测试文件位置错误、使用 `toHaveTextContent`、断言 style 属性/颜色值/布局属性、测试组件内部 state、**测试描述暴露内部实现方法名**）
+- **90-100**: 明确违反以上规则（如测试文件位置错误、使用 `toHaveTextContent`、断言 style 属性/颜色值/布局属性、测试组件内部 state、**测试描述暴露内部实现方法名**、**测试中使用真实 timer（setTimeout/sleep/delay/wait）进行固定等待**）
 - **80-89**: 高概率违反或为规范中提到的不良实践（如缺少 Arrange-Act-Assert 结构、测试了设计师修改后就会失败的内容、测试不对应真实用户需求）
 - **<80**: 建议或轻微问题
 
