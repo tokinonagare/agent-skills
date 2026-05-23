@@ -116,6 +116,7 @@ it('should update after state change', () => {
 - 格式：`it('should + 动词 + 期望结果')` 或中文描述
 - ❌ 禁止无意义命名：`test1`、`should render correctly`
 - ❌ 禁止过于笼统的命名：`should work`、`test component`
+- ❌ **禁止暴露内部实现**：测试描述不应包含组件内部方法名、私有函数名等实现细节（如 `it('handleRoomAddTime: 接收到事件时...')`），应聚焦行为描述（如 `it('接收到加秒事件时，如果 roomId 不匹配则不应更新', () => {})`）
 
 ### 6. 断言规范
 
@@ -148,7 +149,7 @@ it('should update after state change', () => {
 
 对问题评分 0-100。
 
-- **90-100**: 明确违反以上规则（如测试文件位置错误、使用 `toHaveTextContent`、断言 style 属性/颜色值/布局属性、测试组件内部 state）
+- **90-100**: 明确违反以上规则（如测试文件位置错误、使用 `toHaveTextContent`、断言 style 属性/颜色值/布局属性、测试组件内部 state、**测试描述暴露内部实现方法名**）
 - **80-89**: 高概率违反或为规范中提到的不良实践（如缺少 Arrange-Act-Assert 结构、测试了设计师修改后就会失败的内容、测试不对应真实用户需求）
 - **<80**: 建议或轻微问题
 
