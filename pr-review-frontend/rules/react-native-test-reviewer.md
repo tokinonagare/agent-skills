@@ -36,7 +36,20 @@ color: green
 
 ## 审查指南
 
-### 1. 文件结构
+### 1. 测试库使用规范
+
+- **强制统一**：项目中所有测试**必须**使用 `@testing-library/react-native`。
+- **禁止使用**：禁止使用 `react-test-renderer` 或其它替代方案。
+- **置信度设定**：发现混用或使用非推荐测试库的问题，置信度直接评为 **100**。
+- **示例**：
+  ```jsx
+  // ✅ 正确：使用 RTL
+  import { render, screen } from '@testing-library/react-native';
+  const { queryByTestId } = render(<GameSplashScreen visible={true} />);
+  expect(queryByTestId('game-splash-screen-container')).toBeTruthy();
+  ```
+
+### 2. 文件结构
 
 - **同级放置**：测试文件必须与被测文件放在同一目录下。
 - **命名规范**：测试文件必须使用 `<文件名>.test.js`（JS 组件/逻辑）或 `<文件名>.test.ts[x]`（TS 组件/逻辑）。
