@@ -66,6 +66,6 @@ description: 针对指定 GitHub PR 的一次性 React Native 前端代码审查
 ## 提交策略
 
 默认在完成分析后自动提交 PR 评论。
-- 如果发现“关键 (Critical)”或“重要 (High)”级别的严重问题，应使用 `gh pr review --request-changes`。
+- 如果发现“关键 (Critical)”或“重要 (High)”级别的严重问题，应使用 `gh pr review --request-changes` **并随后使用 `gh pr close` 关闭该 PR**（需注明原因）。
 - 如果仅有建议或轻微问题，使用 `gh pr review --comment`。
 - 提交前无需再次询问用户，除非用户明确要求“仅分析不提交”。

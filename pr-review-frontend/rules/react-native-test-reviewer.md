@@ -117,6 +117,7 @@ it('should update after state change', () => {
 - ❌ 禁止无意义命名：`test1`、`should render correctly`
 - ❌ 禁止过于笼统的命名：`should work`、`test component`
 - ❌ **禁止暴露内部实现**：测试描述不应包含组件内部方法名、私有函数名等实现细节（如 `it('handleRoomAddTime: 接收到事件时...')`），应聚焦行为描述（如 `it('接收到加秒事件时，如果 roomId 不匹配则不应更新', () => {})`）
+- ❌ **禁止暴露测试意图/覆盖率目标**：测试描述应聚焦用户可观察的行为，严禁包含“为了覆盖特定分支”、“命中特定逻辑”等描述（如 `it('渲染明细项以覆盖特定渲染分支')` 是错误的，应改为 `it('能够正确渲染具有复制功能的明细项')`）
 
 ### 6. 断言规范
 
@@ -124,6 +125,7 @@ it('should update after state change', () => {
 - ✅ 验证属性值：`toBe()`、`toEqual()`
 - ❌ 禁止带有 `Text` 的断言：`.toHaveTextContent()`（RN Testing Library 不支持）
 - ❌ 禁止 `container.querySelector`（RN 无 DOM）
+- ❌ **禁止引用错误的组件实例**：在同一个 `it` 中多次 `render` 时，必须确保断言使用的是对应操作后的最新查询函数或元素。**强烈建议**将不同场景拆分为独立的 `it` 测试用例，各自使用独立的 `render`，确保场景验证的原子性和准确性。
 
 **注意**：React Native Testing Library 没有 DOM，因此 `toBeInTheDocument()` 不存在。使用 `toBeTruthy()` 验证元素存在，`toBeNull()` 验证元素不存在。
 
@@ -194,6 +196,7 @@ it('should update after state change', () => {
   - **例外**：验证降级/回退样式（如 `backgroundColor` 的默认值）是合理的
 - 颜色值：`'red'`、`'#FF0000'`、`'rgba(...)'`
 - 组件内部实现：`state`、`refs`、私有方法
+- **过度贴合实现细节**：断言重心应放在用户可感知的行为上（如“组件在异常情况下仍能正常渲染/不崩溃”），而非内部逻辑流（如“断言 console.log 被调用”以验证 catch 块是否被触发）。
 
 **✅ 应该测试的内容：**
 
@@ -208,7 +211,7 @@ it('should update after state change', () => {
 
 对问题评分 0-100。
 
-- **90-100**: 明确违反以上规则（如测试文件位置错误、使用 `toHaveTextContent`、断言 style 属性/颜色值/布局属性、测试组件内部 state、**测试描述暴露内部实现方法名**、**测试中使用真实 timer（setTimeout/sleep/delay/wait）进行固定等待**）
+- **90-100**: 明确违反以上规则（如测试文件位置错误、使用 `toHaveTextContent`、断言 style 属性/颜色值/布局属性、测试组件内部 state、**引用错误的组件实例进行断言**、**测试描述暴露内部实现方法名/覆盖率目标**、**测试中使用真实 timer（setTimeout/sleep/delay/wait）进行固定等待**）
 - **80-89**: 高概率违反或为规范中提到的不良实践（如缺少 Arrange-Act-Assert 结构、测试了设计师修改后就会失败的内容、测试不对应真实用户需求）
 - **<80**: 建议或轻微问题
 

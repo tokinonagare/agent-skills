@@ -55,11 +55,11 @@ color: cyan
    - 能捕获未来代码变更导致的有意义回归
    - 对合理重构具有韧性
    - 遵循 DAMP 原则（Descriptive and Meaningful Phrases）以保证清晰度
-   - **测试描述**: `describe` / `it` 描述优先使用中文（专有名词、行业术语或通用缩写保留英文）
+   - **测试描述**: `describe` / `it` 描述优先使用中文（专有名词、行业术语或通用缩写保留英文）。严禁暴露内部实现细节（如方法名）或测试意图（如“为了覆盖分支”）。
    - **选择器策略**: 优先使用 `getByTestId`，获取本地化文案或动态内容时可使用 `getByText`
-   - **断言方式**: 使用 React Native Testing Library 的断言方式，如 `toBeTruthy()`、`toBeNull()`、`toBe(false)` 等。RN 无 DOM，不存在 `toBeInTheDocument()`
+   - **断言方式**: 使用 React Native Testing Library 的断言方式，如 `toBeTruthy()`、`toBeNull()`、`toBe(false)` 等。RN 无 DOM，不存在 `toBeInTheDocument()`。严禁在同一个 `it` 中引用错误的组件实例进行断言（多场景应拆分 `it`）。
    - **状态更新包裹**: 涉及 MobX observable 或 React state 变更的交互，应使用 `act()` 包裹
-   - **测试代码组织合理**: 同一个函数的不同测试尽可能写在一起；测试的函数和原函数的位置应该一致
+   - **测试代码组织合理**: 同一个函数的不同测试尽可能写在一起；测试的函数和原函数的位置应该一致。避免过度贴合实现细节（如断言 console.log）。
 
 4. **Mock 使用评估**:
    - **原生模块 Mock 是必需的**: React Native 测试中，`jest.mock` 用于模拟原生模块（如 `react-native-reanimated`、`@react-native-async-storage`）是标准且必要的做法
