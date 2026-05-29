@@ -56,6 +56,7 @@ color: cyan
    - 对合理重构具有韧性
    - 遵循 DAMP 原则（Descriptive and Meaningful Phrases）以保证清晰度
    - **测试描述**: `describe` / `it` 描述优先使用中文（专有名词、行业术语或通用缩写保留英文）。严禁暴露内部实现细节（如方法名）或测试意图（如“为了覆盖分支”）。
+   - **描述与验证一致**: 若测试标题声明了具体业务前置条件或分支（如 `isAutoFold=true`、`存在 check`），测试体必须真实建立该状态并验证对应结果；仅调用无关分支（如 `show(null)`）不能视为有效覆盖。
    - **选择器策略**: 优先使用 `getByTestId`，获取本地化文案或动态内容时可使用 `getByText`
    - **断言方式**: 使用 React Native Testing Library 的断言方式，如 `toBeTruthy()`、`toBeNull()`、`toBe(false)` 等。RN 无 DOM，不存在 `toBeInTheDocument()`。严禁在同一个 `it` 中引用错误的组件实例进行断言（多场景应拆分 `it`）。
    - **状态更新包裹**: 涉及 MobX observable 或 React state 变更的交互，应使用 `act()` 包裹
@@ -120,6 +121,7 @@ color: cyan
    - 测试文件位置或命名不正确
    - 过度使用 Mock 替代核心业务逻辑验证
    - 使用了不适用于 RN 的断言方法（如尝试使用 `toBeInTheDocument()`）
+   - 测试标题与实际验证逻辑不一致，导致“看似覆盖、实际未覆盖”的假覆盖
    - E2E 测试中硬编码了凭证
    - E2E 测试中使用了固定延迟（如 `page.waitForTimeout`）
    - 测试代码组织不合理（同一函数的测试分散，或测试函数与原函数位置不一致）
