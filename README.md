@@ -12,6 +12,7 @@
 | **前端探索性测试** | `frontend-exploratory-testing` | 面向浏览器的前端探索性测试、证据采集与 Issue 输出。 | 通用 |
 | **Argos 视觉优化** | `argos-visual-timing` | 优化 Argos/Playwright 截图时机，解决截图太早/太晚问题。 | 通用 |
 | **打包脚本专家** | `build-scripts` | Android (React Native) 打包自动化，确保环境纯净与 100% 成功率。 | 通用 |
+| **硬盘清理分析** | `disk-cleanup-analysis` | macOS 硬盘占用分析与安全清理，分级识别可重建缓存、孤儿目录、僵尸文件与 TM 快照。 | 通用 |
 
 ---
 
@@ -47,6 +48,12 @@
 - **定位**：严苛模式下的 Android/RN 打包自动化。
 - **原则**：零污染（打包后彻底还原）、物理隔离（清理 node_modules）、全量覆写（保证环境一致性）。
 - **能力**：包含 NDK 崩溃修复、MMKV 镜像优化、AndroidX 锁定等一系列黄金实践。
+
+### 🧹 硬盘清理分析 (`disk-cleanup-analysis`)
+- **定位**：macOS 用户级硬盘分析与安全清理，先分析、再分级、确认后删除。
+- **工具链**：mole（缓存/孤儿/项目产物扫描）、du、lsof、df、tmutil、diskutil。
+- **分类经验**：可重建缓存（Yarn v1 实为 `~/Library/Caches/Yarn/v6`、npm、CocoaPods、Playwright 等）、应用更新残留（ShipIt/UpdatePackages）、孤儿目录三步确认法（lsof + which + LaunchAgent）、僵尸文件（`lsof +L1` 找占用进程）、TM 本地快照。
+- **核心亮点**：TM 本地快照可免 sudo 用 `diskutil apfs deleteSnapshot` 批量删除（tmutil 在 macOS 26 失效），实测一次释放 30G+；删除后 `df` 不涨优先排查快照。
 
 ---
 
