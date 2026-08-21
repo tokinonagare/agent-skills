@@ -13,6 +13,7 @@
 | **Argos 视觉优化** | `argos-visual-timing` | 优化 Argos/Playwright 截图时机，解决截图太早/太晚问题。 | 通用 |
 | **打包脚本专家** | `build-scripts` | Android (React Native) 打包自动化，确保环境纯净与 100% 成功率。 | 通用 |
 | **硬盘清理分析** | `disk-cleanup-analysis` | macOS 硬盘占用分析与安全清理，分级识别可重建缓存、孤儿目录、僵尸文件与 TM 快照。 | 通用 |
+| **交付成果验证** | `verifying-delegated-work` | 验收他人（含其他 Agent）交付的成果：数字自己重跑、守卫用变异证明。 | 通用 |
 
 ---
 
@@ -55,6 +56,12 @@
 - **分类经验**：可重建缓存（Yarn v1 实为 `~/Library/Caches/Yarn/v6`、npm、CocoaPods、Playwright 等）、应用更新残留（ShipIt/UpdatePackages）、孤儿目录三步确认法（lsof + which + LaunchAgent）、僵尸文件（`lsof +L1` 找占用进程）、TM 本地快照。
 - **核心亮点**：TM 本地快照可免 sudo 用 `diskutil apfs deleteSnapshot` 批量删除（tmutil 在 macOS 26 失效），实测一次释放 30G+；删除后 `df` 不涨优先排查快照。
 
+
+### ✅ 交付成果验证 (`verifying-delegated-work`)
+- **定位**：接手别人（尤其是其他 Agent）「已完成」的分支时，防止把转述当验证。
+- **两条纪律**：① 对方报的测试数/通过率/lint 结果**自己重跑**再引用，否则明确标注「未跑、采信作者」；② 「测试是真守卫」必须用**变异证明**——把修复改回缺陷态，断言必须变红。
+- **描述口径**：`description` 只写触发条件、不概述流程（`writing-skills` 明确警告过：描述里概述流程会让模型照描述走而跳过正文）。
+- **实测由来**：无 skill 的基线评审明说「我这边不需要再跑一遍全量」且全程未做变异；带 skill 后同一场景下自己重跑了全部数字、做了 14 条变异，并靠变异挖出一条「141 条测试全绿但守卫维度缺失」的真问题。
 ---
 
 ## 使用指南
