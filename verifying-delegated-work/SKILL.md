@@ -1,11 +1,11 @@
 ---
 name: verifying-delegated-work
-description: Use when accepting, reviewing, or relaying work that someone else reports as finished — their report cites test counts, pass/fail numbers, coverage, or claims that new tests guard the fix
+description: 用于接手、评审或转述他人（含其他 Agent）声称已完成的成果时——对方报告里给出了测试数量、通过率、覆盖率等数字，或声称新增的测试能拦住回归
 ---
 
 # 验证他人交付的工作
 
-## Overview
+## 核心
 
 评审别人交付的改动时，有两件事**看报告永远看不出来**：
 
@@ -14,7 +14,7 @@ description: Use when accepting, reviewing, or relaying work that someone else r
 
 **核心原则：转述不是验证。绿色不是守卫。**
 
-## When to Use
+## 何时使用
 
 - 接手/评审另一个 agent 或同事「已完成」的分支
 - 对方报告里出现 `N files / M tests passed`、`VR 15/15`、`0 error`、`已实机验证` 这类数字或结论
@@ -48,7 +48,7 @@ description: Use when accepting, reviewing, or relaying work that someone else r
 
 变异完**必须还原**并核对工作区干净——变异注入留在树上，是比原缺陷更坏的结果。
 
-## Rationalization Table
+## 常见借口对照表
 
 | 借口 | 事实 |
 |---|---|
@@ -59,7 +59,7 @@ description: Use when accepting, reviewing, or relaying work that someone else r
 | 「变异测试太麻烦」 | 改一个值 + 跑一条 spec + 还原。比放过一个假绿便宜得多 |
 | 「我读了 diff，逻辑是对的」 | 读 diff 查不出「测试能不能拦」 |
 
-## Red Flags
+## 危险信号
 
 - 你的评审结论里出现了作者报告里的数字，而你没跑过
 - 你写下「测试是真守卫」但没做过变异
@@ -69,7 +69,7 @@ description: Use when accepting, reviewing, or relaying work that someone else r
 
 **以上任一条成立：先跑，再下结论。**
 
-## Example：一次真实的假绿
+## 例子：一次真实的假绿
 
 某处样式修复配了 4 条断言，断言方式是对 `.less` **源码文本**做正则匹配。
 
