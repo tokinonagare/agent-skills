@@ -14,6 +14,8 @@
 | **打包脚本专家** | `build-scripts` | Android (React Native) 打包自动化，确保环境纯净与 100% 成功率。 | 通用 |
 | **硬盘清理分析** | `disk-cleanup-analysis` | macOS 硬盘占用分析与安全清理，分级识别可重建缓存、孤儿目录、僵尸文件与 TM 快照。 | 通用 |
 | **交付成果验证** | `verifying-delegated-work` | 验收他人（含其他 Agent）交付的成果：数字自己重跑、守卫用变异证明。 | 通用 |
+| **代码改动派活** | `dispatching-code-changes` | 涉及代码改动时默认派给独立 agent 在自己的 worktree 上做，不在主仓直接改。 | 通用 |
+| **herdr 编排** | `herdr-orchestration` | 用 herdr 派活给并行 agent：CLI 实际形状、状态字段为何不可信、收工清理闭环。 | 通用 |
 
 ---
 
