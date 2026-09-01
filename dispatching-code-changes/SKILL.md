@@ -16,8 +16,11 @@ description: 用于用户要求修改、修复、重构或新增代码时，在�
   → 新建 tab
   → 在 tab 里起 agent（类型默认与当前 agent 一致，用户可指定）
   → 把活派给它
-  → 你负责调研、验收、合并、清理
+  → 交付回来先过独立 code review，结果回灌给作者改
+  → 你负责调研、review 指派、验收、合并、清理
 ```
+
+**交付回来的下一步是 review，不是验收**——机制见 `reviewing-agent-deliverables` skill。
 
 **不在主仓工作区直接 Edit/Write 业务代码。**
 
@@ -29,6 +32,7 @@ description: 用于用户要求修改、修复、重构或新增代码时，在�
 - 只读调研：查根因、读代码、跑测试量数据、看 VR 基线
 - 回答问题、解释机制、写分析
 - 派活所需的准备：建 worktree、写 issue、写 prompt
+- 指派与裁定 code review（见 `reviewing-agent-deliverables`）
 - 验收：重跑数字、做变异证明、真机复现
 - 用户明说「你直接改」「不用派 agent」
 
@@ -67,7 +71,7 @@ description: 用于用户要求修改、修复、重构或新增代码时，在�
 ## 怎么派
 
 具体机制（worktree 预置清单、起 agent、盯进度、边界核验、过硬闸清理）见
-**`herdr-orchestration`** skill。仓库特有的事实（基点分支、端口分段、验证口径）
+**`herdr-orchestration`** skill；交付回来的 review 环节见 **`reviewing-agent-deliverables`** skill。仓库特有的事实（基点分支、端口分段、验证口径）
 见该仓的并行开发文档（本仓是 `docs/agents/parallel-worktree-dev.md`）。
 
 **agent 类型**：默认与当前 agent 一致（当前是 claude 就派 claude）；用户指定了就用指定的。
