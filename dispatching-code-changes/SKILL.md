@@ -75,3 +75,9 @@ description: 用于用户要求修改、修复、重构或新增代码时，在�
 见该仓的并行开发文档（本仓是 `docs/agents/parallel-worktree-dev.md`）。
 
 **agent 类型**：默认与当前 agent 一致（当前是 claude 就派 claude）；用户指定了就用指定的。
+
+**派的时候点名档位**。派不派是二元的，**派多重不是**——不给验证预算，agent 会跑满：
+实测一个只改几行 SVG 的单跑了两次全量单测、一个 mock 顺序单跑了 35 次 VR。
+档位判据见 `reviewing-agent-deliverables` §一，每档的验证预算见
+`herdr-orchestration` §四「验证预算」。**判档看触点，不看行数**——
+「只改了几行」这个直觉实测经常是错的。
